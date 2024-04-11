@@ -123,7 +123,7 @@ select * from boss
 
 delete from raidPartyRoom;
 
-insert into raidPartyRoom values ('001', 'anyone need olaf carrot?', '001', '005');
+insert into raidPartyRoom values ('001', 'anybody need olaf carrot?', '001', '005');
 insert into raidPartyRoom values ('002', 'wolf raid / fire dps welcome', '002', '003');
 
 select * from raidPartyRoom
