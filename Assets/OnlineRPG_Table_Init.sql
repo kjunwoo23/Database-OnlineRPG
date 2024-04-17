@@ -108,7 +108,7 @@ select * from banList
 delete from auction;
 
 insert into auction values ('001', '002', '003', 15000);
-insert into auction values ('002', '003', '001', 27000);
+insert into auction values ('002', '003', '005', 27000);
 
 select * from auction
 
@@ -123,7 +123,7 @@ select * from boss
 
 delete from raidPartyRoom;
 
-insert into raidPartyRoom values ('001', 'anybody need olaf carrot?', '001', '005');
-insert into raidPartyRoom values ('002', 'wolf raid / fire dps welcome', '002', '003');
+insert into raidPartyRoom values ('001', 'anybody need olaf carrot?', '001', '005', 1);
+insert into raidPartyRoom values ('002', 'wolf raid / fire dps welcome', '002', '003', 3);
 
 select * from raidPartyRoom

@@ -140,6 +140,7 @@ create table raidPartyRoom
 	 party_name				varchar(30),	--party_name can be customized by users
 	 boss_ID				varchar(3),
 	 leader_ID				varchar(5),
+	 current_member			numeric(3,0),
 	 primary key (party_ID),
 	 foreign key (boss_ID) references boss
 		on delete set null,

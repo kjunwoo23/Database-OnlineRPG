@@ -1,0 +1,20 @@
+user
+아이디	레벨	클래스	무기
+
+class
+이름	요구레벨	시작hp	시작mp
+
+skill
+이름	속성	클래스	요구레벨	dmg	소모mp
+
+weaponType
+이름	무기종류	속성	클래스	요구레벨	dmg
+
+boss
+이름	속성	hp	mp	요구레벨	인원
+
+레이드방
+이름	보스 이름		방장	최대인원	현재인원
+
+auction
+이름	종류	속성	dmg	가격	판매자
