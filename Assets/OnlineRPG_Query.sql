@@ -93,3 +93,6 @@ select required_member
 from dbo.boss as boss
 	where boss.boss_ID = '002'
 
+select gm_user_id
+from dbo.GM
+where gm_user_id = 009
