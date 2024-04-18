@@ -18,3 +18,6 @@ boss
 
 auction
 이름	종류	속성	dmg	가격	판매자
+
+banlist
+이름	밴한GM	밴날짜	풀리는날짜

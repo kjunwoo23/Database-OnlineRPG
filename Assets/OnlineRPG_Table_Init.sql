@@ -76,7 +76,8 @@ insert into users values ('001', 'GM1', 9999, NULL, NULL);
 insert into users values ('002', 'GM2', 9999, NULL, NULL);
 insert into users values ('003', 'kjunwoo23', 48, '004', '004');
 insert into users values ('004', 'IWoN''tHeAlyOu', 35, '005', '005');
-insert into users values ('005', 'iStartedyesterday', 7, '003', '006');
+insert into users values ('005', 'iStartedyesterday', 9, '003', '006');
+insert into users values ('006', 'GM3', 9999, NULL, NULL);
 
 select * from users
 
@@ -94,6 +95,7 @@ delete from GM;
 
 insert into GM values ('001', '001', 'HeadGM');
 insert into GM values ('002', '002', 'Staff');
+insert into GM values ('003', '006', 'Staff');
 
 select * from GM
 
@@ -108,7 +110,7 @@ select * from banList
 delete from auction;
 
 insert into auction values ('001', '002', '003', 15000);
-insert into auction values ('002', '003', '005', 27000);
+insert into auction values ('002', '003', '004', 27000);
 
 select * from auction
 
@@ -123,7 +125,8 @@ select * from boss
 
 delete from raidPartyRoom;
 
-insert into raidPartyRoom values ('001', 'anybody need olaf carrot?', '001', '005', 1);
-insert into raidPartyRoom values ('002', 'wolf raid / fire dps welcome', '002', '003', 3);
+insert into raidPartyRoom values ('001', 'anybody need olaf carrot?', '001', '005', 2);
+insert into raidPartyRoom values ('002', 'fire element welcome', '002', '003', 3);
+insert into raidPartyRoom values ('003', 'let me raid boss plz', '002', '004', 1);
 
 select * from raidPartyRoom
