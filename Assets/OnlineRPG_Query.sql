@@ -133,3 +133,7 @@ where seller not in
 		        from dbo.users as users
 		        inner join dbo.banList as banList
 		        on users.user_ID = banList.user_ID)
+
+select * from BanView
+
+select * from ElementView
