@@ -96,3 +96,40 @@ from dbo.boss as boss
 select gm_user_id
 from dbo.GM
 where gm_user_id = 009
+
+
+select * from UserView
+where user_name not in
+		        (select user_name
+		        from dbo.users as users
+		        left outer join dbo.banList as banList
+		        on users.user_ID = banList.user_ID
+		        left outer join dbo.GM as GM
+		        on users.user_ID = GM.GM_user_ID
+		        where users.user_ID = banList.user_ID or users.user_ID = gm.GM_user_ID)
+				order by class_name
+
+select * from ClassView
+
+select * from SkillView
+order by required_level
+
+select * from WeaponTypeView
+order by required_level
+
+select * from BossView
+
+select * from RaidPartyView
+where leader not in
+		        (select user_name
+		        from dbo.users as users
+		        inner join dbo.banList as banList
+		        on users.user_ID = banList.user_ID)
+				order by leader
+
+select * from AuctionView
+where seller not in
+		        (select user_name
+		        from dbo.users as users
+		        inner join dbo.banList as banList
+		        on users.user_ID = banList.user_ID)

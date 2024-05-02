@@ -223,6 +223,13 @@ create view ElementView as
 
 create role GMRole
 
-grant insert on database::OnlineRPG_DB to GMRole
+grant insert, delete on database::OnlineRPG_DB to GMRole
 
-grant GMRole to kjunwoo234;
+revoke insert, delete on database::OnlineRPG_DB to kjunwoo234
+EXEC sp_droprolemember 'GMRole', 'kjunwoo234';
+
+EXEC sp_addrolemember 'GMRole', 'kjunwoo234';
+
+EXEC sp_droprolemember 'GMRole', 'kjunwoo234';
+
+grant insert, delete on database::OnlineRPG_DB to kjunwoo234

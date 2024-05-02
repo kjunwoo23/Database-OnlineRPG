@@ -47,6 +47,8 @@ public class SQLManager : MonoBehaviour
         connection = new SqlConnection(connectionString);
         connection.Open();
 
+        GMInit();
+
         orderTypes = new int[tables.Length];
 
         OnClickTableOrderBy(1);
@@ -214,17 +216,12 @@ public class SQLManager : MonoBehaviour
 
     void ShowUserTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT level, user_name, class_name, weapon_name
-            FROM dbo.users as users
-            left outer join dbo.class as class
-            on users.class_ID = class.class_ID
-            left outer join dbo.weapon as weapon
-            on users.weapon_ID = weapon.weapon_ID";
+        string query = @"select * from UserView";
 
         if (!isGM)
         {
             query += @"
-                where users.user_name not in
+                where user_name not in
 		        (select user_name
 		        from dbo.users as users
 		        left outer join dbo.banList as banList
@@ -268,12 +265,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowUserTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT level, user_name, class_name, weapon_name
-            FROM dbo.users as users
-            left outer join dbo.class as class
-            on users.class_ID = class.class_ID
-            left outer join dbo.weapon as weapon
-            on users.weapon_ID = weapon.weapon_ID";
+        string query = @"select * from UserView";
 
         switch (target)
         {
@@ -290,7 +282,7 @@ public class SQLManager : MonoBehaviour
 
         if (!isGM)
         {
-            query += @" and users.user_name not in
+            query += @" and user_name not in
 		        (select user_name
 		        from dbo.users as users
 		        left outer join dbo.banList as banList
@@ -305,12 +297,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowUserTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT level, user_name, class_name, weapon_name
-            FROM dbo.users as users
-            left outer join dbo.class as class
-            on users.class_ID = class.class_ID
-            left outer join dbo.weapon as weapon
-            on users.weapon_ID = weapon.weapon_ID";
+        string query = @"select * from UserView";
 
         switch (target)
         {
@@ -321,7 +308,7 @@ public class SQLManager : MonoBehaviour
 
         if (!isGM)
         {
-            query += @" and users.user_name not in
+            query += @" and user_name not in
 		        (select user_name
 		        from dbo.users as users
 		        left outer join dbo.banList as banList
@@ -339,8 +326,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowClassTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT class_name, required_level, default_HP, default_MP
-            FROM dbo.class";
+        string query = @"select * from ClassView";
 
         switch (orderType)
         {
@@ -375,8 +361,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowClassTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT class_name, required_level, default_HP, default_MP
-            FROM dbo.class";
+        string query = @"select * from ClassView";
 
         switch (target)
         {
@@ -390,8 +375,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowClassTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT class_name, required_level, default_HP, default_MP
-            FROM dbo.class";
+        string query = @"select * from ClassView";
 
         switch (target)
         {
@@ -414,12 +398,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowSkillTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT skill_name, element_name, class_name, skill.required_level, damage_coefficient, MP_cost
-            FROM dbo.skill as skill
-	        inner join dbo.element as element
-	        on skill.element_ID = element.element_ID
-	        inner join dbo.class as class
-	        on skill.required_class_ID = class.class_ID";
+        string query = @"select * from SkillView";
 
         switch (orderType)
         {
@@ -444,10 +423,10 @@ public class SQLManager : MonoBehaviour
                 query += "\norder by class_name desc";
                 break;
             case 4:
-                query += "\norder by skill.required_level";
+                query += "\norder by required_level";
                 break;
             case -4:
-                query += "\norder by skill.required_level desc";
+                query += "\norder by required_level desc";
                 break;
             case 5:
                 query += "\norder by damage_coefficient";
@@ -467,12 +446,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowSkillTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT skill_name, element_name, class_name, skill.required_level, damage_coefficient, MP_cost
-            FROM dbo.skill as skill
-	        inner join dbo.element as element
-	        on skill.element_ID = element.element_ID
-	        inner join dbo.class as class
-	        on skill.required_class_ID = class.class_ID";
+        string query = @"select * from SkillView";
 
         switch (target)
         {
@@ -492,17 +466,12 @@ public class SQLManager : MonoBehaviour
     }
     void ShowSkillTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT skill_name, element_name, class_name, skill.required_level, damage_coefficient, MP_cost
-            FROM dbo.skill as skill
-	        inner join dbo.element as element
-	        on skill.element_ID = element.element_ID
-	        inner join dbo.class as class
-	        on skill.required_class_ID = class.class_ID";
+        string query = @"select * from SkillView";
 
         switch (target)
         {
             case "Req Lv":
-                query += "\nwhere skill.required_level between " + min.ToString() + " and " + max.ToString();
+                query += "\nwhere required_level between " + min.ToString() + " and " + max.ToString();
                 break;
             case "Damage":
                 query += "\nwhere damage_coefficient between " + min.ToString() + " and " + max.ToString();
@@ -520,10 +489,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowWeaponTypeTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT weapon_type_name, class_name, weaponType.required_level
-            FROM dbo.weaponType as weaponType
-	        inner join dbo.class as class
-	        on weaponType.required_class_ID = class.class_ID";
+        string query = @"select * from WeaponTypeView";
 
         switch (orderType)
         {
@@ -542,10 +508,10 @@ public class SQLManager : MonoBehaviour
                 query += "\norder by class_name desc";
                 break;
             case 3:
-                query += "\norder by weaponType.required_level";
+                query += "\norder by required_level";
                 break;
             case -3:
-                query += "\norder by weaponType.required_level desc";
+                query += "\norder by required_level desc";
                 break;
         }
 
@@ -553,10 +519,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowWeaponTypeTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT weapon_type_name, class_name, weaponType.required_level
-            FROM dbo.weaponType as weaponType
-	        inner join dbo.class as class
-	        on weaponType.required_class_ID = class.class_ID";
+        string query = @"select * from WeaponTypeView";
 
         switch (target)
         {
@@ -573,15 +536,12 @@ public class SQLManager : MonoBehaviour
     }
     void ShowWeaponTypeTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT weapon_type_name, class_name, weaponType.required_level
-            FROM dbo.weaponType as weaponType
-	        inner join dbo.class as class
-	        on weaponType.required_class_ID = class.class_ID";
+        string query = @"select * from WeaponTypeView";
 
         switch (target)
         {
             case "Req Lv":
-                query += "\nwhere weaponType.required_level between " + min.ToString() + " and " + max.ToString();
+                query += "\nwhere required_level between " + min.ToString() + " and " + max.ToString();
                 break;
         }
 
@@ -593,10 +553,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowBossTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT boss_name, element_name, HP, MP, required_level, required_member
-            FROM dbo.Boss as boss
-	        inner join dbo.element as element
-	        on boss.element_ID = element.element_ID";
+        string query = @"select * from BossView";
 
         switch (orderType)
         {
@@ -644,10 +601,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowBossTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT boss_name, element_name, HP, MP, required_level, required_member
-            FROM dbo.Boss as boss
-	        inner join dbo.element as element
-	        on boss.element_ID = element.element_ID";
+        string query = @"select * from BossView";
 
         switch (target)
         {
@@ -664,10 +618,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowBossTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT boss_name, element_name, HP, MP, required_level, required_member
-            FROM dbo.Boss as boss
-	        inner join dbo.element as element
-	        on boss.element_ID = element.element_ID";
+        string query = @"select * from BossView";
 
         switch (target)
         {
@@ -693,17 +644,12 @@ public class SQLManager : MonoBehaviour
 
     void ShowRaidPartyTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT party_name, boss_name, user_name as leader, required_member, current_member
-            FROM dbo.raidPartyRoom as raidPartyRoom
-	        inner join dbo.boss as boss
-	        on raidPartyRoom.boss_ID = boss.boss_ID
-	        inner join dbo.users as users
-	        on raidPartyRoom.leader_ID = users.user_ID";
+        string query = @"select * from RaidPartyView";
 
         if (!isGM)
         {
             query += @"	
-	            where users.user_name not in
+	            where leader not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -750,12 +696,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowRaidPartyTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT party_name, boss_name, user_name as leader, required_member, current_member
-            FROM dbo.raidPartyRoom as raidPartyRoom
-	        inner join dbo.boss as boss
-	        on raidPartyRoom.boss_ID = boss.boss_ID
-	        inner join dbo.users as users
-	        on raidPartyRoom.leader_ID = users.user_ID";
+        string query = @"select * from RaidPartyView";
 
         switch (target)
         {
@@ -766,13 +707,13 @@ public class SQLManager : MonoBehaviour
                 query += "\nwhere boss_name like '%" + text + "%'";
                 break;
             case "Leader":
-                query += "\nwhere user_name like '%" + text + "%'";
+                query += "\nwhere leader like '%" + text + "%'";
                 break;
         }
 
         if (!isGM)
         {
-            query += @"	and users.user_name not in
+            query += @"	and leader not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -783,12 +724,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowRaidPartyTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT party_name, boss_name, user_name as leader, required_member, current_member
-            FROM dbo.raidPartyRoom as raidPartyRoom
-	        inner join dbo.boss as boss
-	        on raidPartyRoom.boss_ID = boss.boss_ID
-	        inner join dbo.users as users
-	        on raidPartyRoom.leader_ID = users.user_ID";
+        string query = @"select * from RaidPartyView";
 
         switch (target)
         {
@@ -802,7 +738,7 @@ public class SQLManager : MonoBehaviour
 
         if (!isGM)
         {
-            query += @"	and users.user_name not in
+            query += @"	and leader not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -816,21 +752,12 @@ public class SQLManager : MonoBehaviour
 
     void ShowAuctionTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT weapon_name, weapon_type_name, element_name, damage_coefficient, price, user_name as seller
-            FROM dbo.auction as auction
-	        inner join dbo.weapon as weapon
-	        on auction.weapon_ID = weapon.weapon_ID 
-	        inner join dbo.weaponType as weaponType
-	        on weapon.weapon_type_ID = weaponType.weapon_type_ID
-	        inner join dbo.element as element
-	        on weapon.element_ID = element.element_ID
-	        inner join dbo.users as users
-	        on auction.seller_ID = users.user_ID";
+        string query = @"select * from AuctionView";
 
         if (!isGM)
         {
             query += @"
-	            where users.user_name not in
+	            where seller not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -883,16 +810,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowAuctionTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT weapon_name, weapon_type_name, element_name, damage_coefficient, price, user_name as seller
-            FROM dbo.auction as auction
-	        inner join dbo.weapon as weapon
-	        on auction.weapon_ID = weapon.weapon_ID 
-	        inner join dbo.weaponType as weaponType
-	        on weapon.weapon_type_ID = weaponType.weapon_type_ID
-	        inner join dbo.element as element
-	        on weapon.element_ID = element.element_ID
-	        inner join dbo.users as users
-	        on auction.seller_ID = users.user_ID";
+        string query = @"select * from AuctionView";
 
         switch (target)
         {
@@ -906,13 +824,13 @@ public class SQLManager : MonoBehaviour
                 query += "\nwhere element_name like '%" + text + "%'";
                 break;
             case "Seller":
-                query += "\nwhere user_name like '%" + text + "%'";
+                query += "\nwhere seller like '%" + text + "%'";
                 break;
         }
 
         if (!isGM)
         {
-            query += @" and users.user_name not in
+            query += @" and seller not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -923,16 +841,7 @@ public class SQLManager : MonoBehaviour
     }
     void ShowAuctionTable(TableLayout table, string target, float min, float max)
     {
-        string query = @"SELECT weapon_name, weapon_type_name, element_name, damage_coefficient, price, user_name as seller
-            FROM dbo.auction as auction
-	        inner join dbo.weapon as weapon
-	        on auction.weapon_ID = weapon.weapon_ID 
-	        inner join dbo.weaponType as weaponType
-	        on weapon.weapon_type_ID = weaponType.weapon_type_ID
-	        inner join dbo.element as element
-	        on weapon.element_ID = element.element_ID
-	        inner join dbo.users as users
-	        on auction.seller_ID = users.user_ID";
+        string query = @"select * from AuctionView";
 
         switch (target)
         {
@@ -946,7 +855,7 @@ public class SQLManager : MonoBehaviour
 
         if (!isGM)
         {
-            query += @" and users.user_name not in
+            query += @" and seller not in
 		        (select user_name
 		        from dbo.users as users
 		        inner join dbo.banList as banList
@@ -960,14 +869,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowBanTable(TableLayout table, int orderType)
     {
-        string query = @"SELECT users1.user_name as banned_user_name, users2.user_name as GM_name, GM_grade, banned_date, unban_date
-            FROM dbo.banList as banList
-	        inner join dbo.users as users1
-	        on banList.user_ID = users1.user_ID
-	        inner join dbo.GM as GM
-	        on banList.GM_ID = GM.GM_ID
-	        inner join dbo.users as users2
-	        on GM.GM_user_ID = users2.user_ID";
+        string query = @"select * from BanView";
 
         switch (orderType)
         {
@@ -1014,22 +916,15 @@ public class SQLManager : MonoBehaviour
     }
     void ShowBanTable(TableLayout table, string target, string text)
     {
-        string query = @"SELECT users1.user_name as banned_user_name, users2.user_name as GM_name, GM_grade, banned_date, unban_date
-            FROM dbo.banList as banList
-	        inner join dbo.users as users1
-	        on banList.user_ID = users1.user_ID
-	        inner join dbo.GM as GM
-	        on banList.GM_ID = GM.GM_ID
-	        inner join dbo.users as users2
-	        on GM.GM_user_ID = users2.user_ID";
+        string query = @"select * from BanView";
 
         switch (target)
         {
             case "Banned User":
-                query += "\nwhere users1.user_name like '%" + text + "%'";
+                query += "\nwhere banned_user_name like '%" + text + "%'";
                 break;
             case "GM in Charge":
-                query += "\nwhere users2.user_name like '%" + text + "%'";
+                query += "\nwhere GM_name like '%" + text + "%'";
                 break;
             case "GM Grade":
                 query += "\nwhere GM_grade like '%" + text + "%'";
@@ -1054,12 +949,7 @@ public class SQLManager : MonoBehaviour
 
     void ShowElementTable(TableLayout table, int orderType)
     {
-        string query = @"select element1.element_name as Name, element2.element_name as Synergy, element3.element_name as Weak
-            from dbo.element as element1
-	        inner join dbo.element as element2
-	        on element1.synergy_element_ID = element2.element_ID
-	        inner join dbo.element as element3
-	        on element1.weak_element_ID = element3.element_ID";
+        string query = @"select * from ElementView";
 
         switch (orderType)
         {
@@ -1089,23 +979,18 @@ public class SQLManager : MonoBehaviour
     }
     void ShowElementTable(TableLayout table, string target, string text)
     {
-        string query = @"select element1.element_name as Name, element2.element_name as Synergy, element3.element_name as Weak
-            from dbo.element as element1
-	        inner join dbo.element as element2
-	        on element1.synergy_element_ID = element2.element_ID
-	        inner join dbo.element as element3
-	        on element1.weak_element_ID = element3.element_ID";
+        string query = @"select * from ElementView";
 
         switch (target)
         {
             case "Element Name":
-                query += "\nwhere element1.element_name like '%" + text + "%'";
+                query += "\nwhere Name like '%" + text + "%'";
                 break;
             case "Synergy Element":
-                query += "\nwhere element2.element_name like '%" + text + "%'";
+                query += "\nwhere Synergy like '%" + text + "%'";
                 break;
             case "Weak Element":
-                query += "\nwhere element3.element_name like '%" + text + "%'";
+                query += "\nwhere Weak like '%" + text + "%'";
                 break;
         }
 
@@ -1198,9 +1083,33 @@ public class SQLManager : MonoBehaviour
         return tmp;
     }
 
+    void GMInit()
+    {
+        string query = @"revoke insert, delete on database::OnlineRPG_DB to kjunwoo234
+                        EXEC sp_droprolemember 'GMRole', 'kjunwoo234';";
+
+        SqlCommand command = new SqlCommand(query, connection);
+        SqlDataReader rdr = command.ExecuteReader();
+
+        rdr.Close();
+        rdr.Dispose();
+    }
+
     public void OnVauleChangedGM(Toggle toggle)
     {
         isGM = toggle.isOn;
+
+        string query;
+
+        if (isGM)        query = @"EXEC sp_addrolemember 'GMRole', 'kjunwoo234';";
+        else             query = @"EXEC sp_droprolemember 'GMRole', 'kjunwoo234';";
+
+        SqlCommand command = new SqlCommand(query, connection);
+        SqlDataReader rdr = command.ExecuteReader();
+
+        rdr.Close();
+        rdr.Dispose();
+
 
         int curTable = CurTable();
         OnClickShowTableButton(curTable);
@@ -1464,12 +1373,18 @@ insert into raidPartyRoom values ('003', 'let me raid boss plz', '002', '004', 1
 select * from raidPartyRoom
 ";
 
-        SqlCommand command = new SqlCommand(query, connection);
-        SqlDataReader rdr = command.ExecuteReader();
+        try
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            SqlDataReader rdr = command.ExecuteReader();
 
-        rdr.Close(); // <- too easy to forget
-        rdr.Dispose(); // <- too easy to forget
-
+            rdr.Close();
+            rdr.Dispose();
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
 
         int tmp = CurTable();
 
@@ -1480,33 +1395,40 @@ select * from raidPartyRoom
     {
         int tmp = CurTable();
 
-        switch (tmp)
+        try
         {
-            case 0:
-                RandomAddUsers();
-                break;
-            case 1:
-                RandomAddClass();
-                break;
-            case 2:
-                RandomAddSkill();
-                break;
-            case 3:
-                RandomAddWeaponType();
-                break;
-            case 4:
-                RandomAddBoss();
-                break;
-            case 5:
-                RandomAddBossRaid();
-                break;
-            case 6:
-                RandomAddAuction();
-                break;
-            case 7:
-                RandomAddBan();
-                break;
+            switch (tmp)
+            {
+                case 0:
+                    RandomAddUsers();
+                    break;
+                case 1:
+                    RandomAddClass();
+                    break;
+                case 2:
+                    RandomAddSkill();
+                    break;
+                case 3:
+                    RandomAddWeaponType();
+                    break;
+                case 4:
+                    RandomAddBoss();
+                    break;
+                case 5:
+                    RandomAddBossRaid();
+                    break;
+                case 6:
+                    RandomAddAuction();
+                    break;
+                case 7:
+                    RandomAddBan();
+                    break;
+            }
         }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }        
     }
     string RandomAddUsers()
     {
@@ -1730,7 +1652,6 @@ select * from raidPartyRoom
 
         OnClickShowTableButton(7);
     }
-
 
 
 
@@ -1967,3 +1888,4 @@ select * from raidPartyRoom
 #endif
     }
 }
+
