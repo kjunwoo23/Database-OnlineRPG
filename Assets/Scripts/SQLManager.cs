@@ -275,6 +275,9 @@ public class SQLManager : MonoBehaviour
 
         switch (target)
         {
+            case "Lv Rank":
+                query += "\nwhere user_rank like '%" + text + "%'";
+                break;
             case "Name":
                 query += "\nwhere user_name like '%" + text + "%'";
                 break;
