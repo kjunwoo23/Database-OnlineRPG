@@ -148,13 +148,17 @@ create table raidPartyRoom
 		on delete set null
 	);
 
+	drop view userview
+
 create view UserView as
-	SELECT level, user_name, class_name, weapon_name
+	SELECT RANK() over (order by level desc) as user_rank, level, user_name, class_name, weapon_name
             FROM dbo.users as users
             left outer join dbo.class as class
             on users.class_ID = class.class_ID
             left outer join dbo.weapon as weapon
             on users.weapon_ID = weapon.weapon_ID;
+
+--select * from userview
 
 create view ClassView as
 	SELECT class_name, required_level, default_HP, default_MP
@@ -309,12 +313,12 @@ as
 
 	delete from users;
 
-	insert into users values ('001', 'GM1', 9999, NULL, NULL);
-	insert into users values ('002', 'GM2', 9999, NULL, NULL);
+	insert into users values ('001', 'GM1', -1, NULL, NULL);
+	insert into users values ('002', 'GM2', -1, NULL, NULL);
 	insert into users values ('003', 'kjunwoo23', 48, '004', '004');
 	insert into users values ('004', 'IWoN''tHeAlyOu', 35, '005', '005');
 	insert into users values ('005', 'iStartedyesterday', 9, '003', '006');
-	insert into users values ('006', 'GM3', 9999, NULL, NULL);
+	insert into users values ('006', 'GM3', -1, NULL, NULL);
 
 	--select * from users
 
@@ -368,6 +372,8 @@ as
 
 	--select * from raidPartyRoom
 	end
+
+go
 
 exec RefreshTable
 

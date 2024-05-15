@@ -72,12 +72,12 @@ select * from weapon
 
 delete from users;
 
-insert into users values ('001', 'GM1', 9999, NULL, NULL);
-insert into users values ('002', 'GM2', 9999, NULL, NULL);
+insert into users values ('001', 'GM1', -1, NULL, NULL);
+insert into users values ('002', 'GM2', -1, NULL, NULL);
 insert into users values ('003', 'kjunwoo23', 48, '004', '004');
 insert into users values ('004', 'IWoN''tHeAlyOu', 35, '005', '005');
 insert into users values ('005', 'iStartedyesterday', 9, '003', '006');
-insert into users values ('006', 'GM3', 9999, NULL, NULL);
+insert into users values ('006', 'GM3', -1, NULL, NULL);
 
 select * from users
 

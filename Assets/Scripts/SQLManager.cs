@@ -51,7 +51,7 @@ public class SQLManager : MonoBehaviour
 
         orderTypes = new int[tables.Length];
 
-        OnClickTableOrderBy(1);
+        OnClickTableOrderBy(5);
         //ShowUserTable(tables[0], 0);
     }
 
@@ -259,6 +259,12 @@ public class SQLManager : MonoBehaviour
             case -4:
                 query += "\norder by weapon_name desc";
                 break;
+            case 5:
+                query += "\norder by user_rank";
+                break;
+            case -5:
+                query += "\norder by user_rank desc";
+                break;
         }
 
         ReadTableWithQuery(table, query);
@@ -279,7 +285,7 @@ public class SQLManager : MonoBehaviour
                 query += "\nwhere weapon_name like '%" + text + "%'";
                 break;
         }
-
+        
         if (!isGM)
         {
             query += @" and user_name not in
@@ -305,7 +311,7 @@ public class SQLManager : MonoBehaviour
                 query += "\nwhere level between " + min.ToString() + " and " + max.ToString();
                 break;
         }
-
+        
         if (!isGM)
         {
             query += @" and user_name not in
@@ -645,7 +651,7 @@ public class SQLManager : MonoBehaviour
     void ShowRaidPartyTable(TableLayout table, int orderType)
     {
         string query = @"select * from RaidPartyView";
-
+        
         if (!isGM)
         {
             query += @"	
